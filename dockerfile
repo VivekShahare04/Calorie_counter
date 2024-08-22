@@ -1,9 +1,6 @@
-FROM python:3.12.0
-WORKDIR / C:\Users\Vivek Shahare\Documents\GitHub\calorie_burn_predictor\Calorie_counter
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-CMD [ "python","./main.py" ]
-
+FROM python:3.12
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+EXPOSE $PORT
+CMD gunicorn --workers=4 --bind 0.0.0.0:$PORT app:app
